@@ -112,9 +112,19 @@ class RGBMapping3D:
 
         plt.show()
 
+color_index_unique = []
+color_angle_unique = []
+color_list_unique = []
+for idx, item in enumerate(color_index):
+    if item not in color_index_unique:
+        color_list_unique.append(color_list)
+        color_index_unique.append(color_index[idx])
+        color_angle_unique.append(color_angle[idx])
 
-# RGBMapping3D 클래스 인스턴스 생성
-rgb_mapping_3d = RGBMapping3D(color_index[:524288*12], color_list[:524288*12])
+for i in range(32):
+    color_space_angle = pd.Series(color_angle_unique[524288*i:524288*(i+1)], index = pd.Index(color_index_unique[524288*i:524288*(i+1)]))
+    color_space_angle.to_excel(f"color_space_angle{i+1}.xlsx", index=True)
 
-# 좌표를 플로팅
-rgb_mapping_3d.plot_points()
+for i in range(32):
+    color_space = pd.Series(color_list_unique[524288*i:524288*(i+1)], index = pd.Index(color_index_unique[524288*i:524288*(i+1)]))
+    color_space.to_excel(f"color_space{i+1}.xlsx", index=True)
