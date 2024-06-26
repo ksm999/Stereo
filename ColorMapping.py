@@ -121,6 +121,7 @@ for idx, item in enumerate(color_index):
         color_index_unique.append(color_index[idx])
         color_angle_unique.append(color_angle[idx])
 
+'''
 for i in range(32):
     color_space_angle = pd.Series(color_angle_unique[524288*i:524288*(i+1)], index = pd.Index(color_index_unique[524288*i:524288*(i+1)]))
     color_space_angle.to_excel(f"color_space_angle{i+1}.xlsx", index=True)
@@ -128,3 +129,29 @@ for i in range(32):
 for i in range(32):
     color_space = pd.Series(color_list_unique[524288*i:524288*(i+1)], index = pd.Index(color_index_unique[524288*i:524288*(i+1)]))
     color_space.to_excel(f"color_space{i+1}.xlsx", index=True)
+'''
+class RGBMapping3D:
+    def __init__(self, color_index, color_list):
+        self.color_index = np.array(color_index)
+        self.color_list = np.array(color_list)
+
+    def plot_points(self):
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        # RGB 값에 해당하는 좌표를 점으로 플로팅
+        points = np.array([point[0] for point in self.color_list])
+        colors = self.color_index / 255
+
+        ax.scatter(points[:, 0], points[:, 1], points[:, 2], c=colors, marker='o')
+        ax.view_init(270,60)
+        ax.set_xlabel('Red')
+        ax.set_ylabel('Green')
+        ax.set_zlabel('Blue')
+
+        plt.show()
+
+rgb_mapping_3d_south = RGBMapping3D(color_index_unique[:], color_list_unique[:])
+
+# 좌표를 플로팅
+rgb_mapping_3d_south.plot_points()
